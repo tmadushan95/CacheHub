@@ -1,6 +1,6 @@
 ﻿namespace CacheHub.Services.Interfaces
 {
-    public interface IDistributedCacheService
+    public interface ICacheService
     {
         /// <summary>
         /// Asynchronously retrieves the value associated with the specified key, deserialized to the given reference

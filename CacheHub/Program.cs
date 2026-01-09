@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Add custom application services
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddServices();
 
 var app = builder.Build();
 

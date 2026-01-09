@@ -9,12 +9,12 @@ namespace CacheHub.EndPoints
         {
             // Map the endpoint to get weather forecasts
             app.MapGet("/weatherforecast",
-                async (IDistributedCacheService cacheService, CancellationToken cancellationToken) =>
+                async (ICacheService cacheService, CancellationToken cancellationToken) =>
                   await GetWeatherForecast(cacheService, true, cancellationToken))
             .WithName("getWeatherForecast");
 
             app.MapGet("/removeWeatherforecastCache",
-               async (IDistributedCacheService cacheService, CancellationToken cancellationToken) =>
+               async (ICacheService cacheService, CancellationToken cancellationToken) =>
                {
                    var isCacheRemoved = await cacheService.RemoveAsync("weatherforecast", cancellationToken);
 
@@ -37,7 +37,7 @@ namespace CacheHub.EndPoints
         /// summary; otherwise, <see langword="false"/>.</param>
         /// <param name="cancellationToken">A token that can be used to cancel the operation.</param>
         /// <returns>An <see cref="IResult"/> containing the weather forecast data as an HTTP response.</returns>
-        private static async Task<IResult> GetWeatherForecast(IDistributedCacheService cacheService, bool includeSummary, CancellationToken cancellationToken)
+        private static async Task<IResult> GetWeatherForecast(ICacheService cacheService, bool includeSummary, CancellationToken cancellationToken)
         {
             return Results.Ok(await CreateForecast(cacheService, includeSummary, cancellationToken));
         }
@@ -55,7 +55,7 @@ namespace CacheHub.EndPoints
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>An array of <see cref="WeatherForecast"/> objects representing the generated weather forecasts. If cached
         /// data is available, the cached array is returned; otherwise, a new array is generated and cached.</returns>
-        private static async Task<WeatherForecast[]> CreateForecast(IDistributedCacheService cacheService, bool includeSummary, CancellationToken cancellationToken)
+        private static async Task<WeatherForecast[]> CreateForecast(ICacheService cacheService, bool includeSummary, CancellationToken cancellationToken)
         {
 
             // Attempt to retrieve cached weather forecasts

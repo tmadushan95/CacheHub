@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace CacheHub.Services
 {
-    public class DistributedCacheService(IDistributedCache distributedCache) : IDistributedCacheService
+    public class CacheService(IDistributedCache distributedCache) : ICacheService
     {
         private readonly IDistributedCache _distributedCache = distributedCache;
         private static readonly ConcurrentDictionary<string, bool> _cacheKeys = new();
@@ -79,7 +79,14 @@ namespace CacheHub.Services
         {
             string cacheValue = JsonConvert.SerializeObject(value);
 
-            await _distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
+            await _distributedCache.SetStringAsync(
+                        key,
+                        cacheValue,
+                        new DistributedCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1)
+                        },
+                        cancellationToken);
 
             _cacheKeys.TryAdd(key, false);
         }
