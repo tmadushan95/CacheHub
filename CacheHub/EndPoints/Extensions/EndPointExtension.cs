@@ -6,14 +6,14 @@ namespace CacheHub.EndPoints.Extensions
 {
     public static class EndPointExtension
     {
-        public static IServiceCollection AddEndPoints(this IServiceCollection services)
+        public static IServiceCollection AddApplicationEndPoints(this IServiceCollection services)
         {
-            services.AddEndPoints(Assembly.GetExecutingAssembly());
+            services.AddApplicationEndPoints(Assembly.GetEntryAssembly()!);
 
             return services;
         }
 
-        public static IServiceCollection AddEndPoints(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddApplicationEndPoints(this IServiceCollection services, Assembly assembly)
         {
             ServiceDescriptor[] serviceDescriptors = [.. assembly
                 .DefinedTypes

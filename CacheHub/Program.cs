@@ -1,4 +1,5 @@
 using CacheHub.Configuration;
+using CacheHub.EndPoints.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddOpenApi();
 // Add custom application services
 builder.Services.AddServices();
 
+// Register application-specific endpoints
+builder.Services.AddApplicationEndPoints();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +25,9 @@ if (app.Environment.IsDevelopment())
 
 // Map application-specific endpoints
 app.MapApplicationEndpoints();
+
+// Map endpoints from registered IEndPoint implementations
+app.MapEndPoints();
 
 app.UseHttpsRedirection();
 
